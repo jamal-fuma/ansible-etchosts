@@ -1,0 +1,42 @@
+# {{ ansible_managed }}
+
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+
+# IPV4 localhost
+127.0.0.1 localhost ipv4-localhost
+
+# IPV4 multicast groups
+224.0.0.1 ipv4-allnodes
+224.0.0.2 ipv4-allrouters
+239.255.255.250 ipv4-site-local
+
+# IPV4 link-local addresses used by AWS for instance-metadata service
+# iptables -t nat -A PREROUTING -p tcp -d 169.254.169.254/32 --dport 80 -j DNAT --to-destination 192.168.1.10:8773
+169.254.169.254 ipv4-ec2-instance-metadata
+
+#IPV4 broadcast
+255.255.255.255 broadcasthost
+
+# IPV6 localhost
+::1 localhost ipv6-localhost
+fe80::1%lo0 localhost ipv6-lo0-link-local
+
+# IPV6 multicast groups
+fe00:0 ipv6-localnet
+ff00:0 ipv6-mcastprefix
+ff02:1 ipv6-allnodes
+ff02:2 ipv6-allrouters
+
+# IPV6 multicast scopes
+ff02:c ipv6-link-local
+ff05:c ipv6-site-local
+ff08:c ipv6-org-local
+ff0e:c ipv6-global
+
+# IPV4 External machine address
+{{ hostvars[inventory_hostname].ansible_default_ipv4.address }} {{inventory_hostname}}

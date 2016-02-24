@@ -1,0 +1,39 @@
+---
+# tasks file for jamal-fuma.etchosts
+
+# setup a status check
+- name: "Check {{ etchosts_hostdb_path }} is present"
+  stat: "path={{ etchosts_hostdb_path }}"
+  register: etchosts_hostdb
+
+# create a fact to hang the work off
+- name: "Creating {{ etchosts_hostdb_path }}"
+  file:
+    path: "{{ etchosts_hostdb_path }}"
+    owner: "{{ etchosts_hostdb_owner }}"
+    group: "{{etchosts_hostdb_group}}"
+    mode: "{{ etchosts_hostdb_mode }}"
+    state: touch
+  when: etchosts_hostdb.stat.exists == false
+  become: true
+
+# make sure we start from a managed state
+- name: "Removing unmanaged entries from {{ etchosts_hostdb_path }}"
+  template: src="defaults.j2"
+            dest="{{ etchosts_hostdb_path }}"
+            force=yes
+            owner="{{ etchosts_hostdb_owner }}"
+            group="{{ etchosts_hostdb_group }}"
+            mode="{{ etchosts_hostdb_mode   }}"
+  become: true
+
+# add the entries to hostsdb
+- name: "Appending managed entries to {{ etchosts_hostdb_path }}"
+  lineinfile: dest="{{ etchosts_hostdb_path }}"
+              line="{{ item }}"
+              owner="{{ etchosts_hostdb_owner }}"
+              group="{{ etchosts_hostdb_group }}"
+              mode="{{ etchosts_hostdb_mode   }}"
+              insertafter="EOF"
+  with_items: etchosts_hostdb_entries
+  become: true
