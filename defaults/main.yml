@@ -5,4 +5,3 @@ etchosts_hostdb_owner: root
 etchosts_hostdb_group: admin
 etchosts_hostdb_mode: 0755
 etchosts_hostdb_entries:
-  - "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }} {{inventory_hostname}}"

@@ -40,3 +40,10 @@ ff0e:c ipv6-global
 
 # IPV4 External machine address
 {{ hostvars[inventory_hostname].ansible_default_ipv4.address }} {{inventory_hostname}}
+
+# Additional statically defined hosts
+{% if 'etchosts_hostdb_entries' in hostvars[inventory_hostname] : %}
+{%      for hostdb_entry in hostvars[inventory_hostname]['etchosts_hostdb_entries'] : %}
+{{ hostdb_entry }}
+{%      endfor %}
+{% endif %}

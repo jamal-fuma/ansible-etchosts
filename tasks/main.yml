@@ -26,14 +26,3 @@
             group="{{ etchosts_hostdb_group }}"
             mode="{{ etchosts_hostdb_mode   }}"
   become: true
-
-# add the entries to hostsdb
-- name: "Appending managed entries to {{ etchosts_hostdb_path }}"
-  lineinfile: dest="{{ etchosts_hostdb_path }}"
-              line="{{ item }}"
-              owner="{{ etchosts_hostdb_owner }}"
-              group="{{ etchosts_hostdb_group }}"
-              mode="{{ etchosts_hostdb_mode   }}"
-              insertafter="EOF"
-  with_items: etchosts_hostdb_entries
-  become: true
