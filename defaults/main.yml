@@ -3,5 +3,5 @@
 etchosts_hostdb_path: /etc/hosts-ansible
 etchosts_hostdb_owner: root
 etchosts_hostdb_group: admin
-etchosts_hostdb_mode: 0755
+etchosts_hostdb_mode: 0644
 etchosts_hostdb_entries:
